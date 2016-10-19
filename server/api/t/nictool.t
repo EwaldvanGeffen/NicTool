@@ -3,7 +3,7 @@
 ##########
 
 use lib 't';
-use TestConfig (50);
+use TestConfig (41);
 use Test;
 use NicTool;
 

@@ -78,7 +78,7 @@ after_success:
 after_failure:
     - pwd
     - cat /var/log/apache2/error.log
-    - cat /etc/apache2/httpd.conf
+    - cat /etc/apache2/apache2.conf
     - ls /usr/lib/apache2/modules/
 after_script:
 

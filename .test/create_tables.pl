@@ -13,18 +13,17 @@ my $db_user = 'nictool';
 my $db_pass = 'lootcin205';
 
 my $nt_root_email = 'ci@travis-ci.com';
-my $clear_pass = $db_pass;
 my $salt = _get_salt(16);
-my $pass_hash = unpack("H*", Crypt::KeyDerivation::pbkdf2($clear_pass, $salt, 5000, 'SHA512'));
+my $pass_hash = unpack("H*", Crypt::KeyDerivation::pbkdf2($db_pass, $salt, 5000, 'SHA512'));
 
 print qq{\n
 Beginning table creation.
 If any of the information you entered is incorrect, press Control-C now!
 -------------------------
-DATABASE DSN:  mysql://$db_user:******\@$db_host/$db
+DATABASE DSN:  mysql://nictool\@$db_host/$db
 host: $db_host
 db  : $db
-user: $db_user
+user: nictool
    *** the DSN info must match the settings in nictoolserver.conf! ***
 
 NICTOOL LOGIN: https://$db_host/index.cgi
@@ -38,7 +37,7 @@ email:  $nt_root_email
 # Create database and initial privileges
 $dbh->do("DROP DATABASE IF EXISTS $db");
 $dbh->do("CREATE DATABASE $db");
-$dbh->do("GRANT ALL PRIVILEGES ON $db.* TO $db_user\@$db_host IDENTIFIED BY '$db_pass'");
+$dbh->do("GRANT ALL PRIVILEGES ON $db.* TO nictool\@$db_host IDENTIFIED BY '$db_pass'");
 $dbh->do("USE $db");
 
 my @sql_files = get_sql_files();
@@ -79,7 +78,7 @@ sub get_dbh {
     my $db_host = 'localhost';
     my $db_root_pw = '';
 
-    my $dbh = DBI->connect("dbi:mysql:host=$db_host", "root", $db_root_pw, {
+    my $dbh = DBI->connect("dbi:mysql:host=$db_host", 'root', $db_root_pw, {
             ChopBlanks => 1,
         })
         or die $DBI::errstr;
