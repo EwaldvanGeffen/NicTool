@@ -20,38 +20,38 @@ addons:
     - libdigest-hmac-perl
     - libssl-dev
     - bind9utils
-#   - libjson-perl
-#   - librpc-xml-perl
-#   - libsoap-lite-perl
-#   - libmodule-build-perl
-#   - libmime-base32-perl
-#   - libmime-base64-perl
-#   - libbind-confparser-perl
-#   - libcrypt-openssl-rsa-perl
-#   - libcrypt-openssl-dsa-perl
-#   - libyaml-perl
-#   - libwww-perl
-#   - liburi-perl
-#   - libmime-tools-perl
-#   - libmailtools-perl
-#   - libfile-sharedir-perl
-#   - libperl-prereqscanner-perl
-#   - libxml-libxml-perl
-#   - libapache-dbi-perl
-#   - libdbix-simple-perl
-#   - libxml-parser-perl
-#   - libdbi-perl
-#   - libnet-ip-perl
-#   - libnet-dns-perl
+    - librpc-xml-perl
+    - libxml-libxml-perl
+    - libapache-dbi-perl
+    - libxml-parser-perl
+    - libjson-perl
+    - libsoap-lite-perl
+    - libmodule-build-perl
+    - libmime-base32-perl
+    - libmime-base64-perl
+    - libbind-confparser-perl
+    - libcrypt-openssl-rsa-perl
+    - libcrypt-openssl-dsa-perl
+    - libyaml-perl
+    - libwww-perl
+    - liburi-perl
+    - libmime-tools-perl
+    - libmailtools-perl
+    - libfile-sharedir-perl
+    - libperl-prereqscanner-perl
+    - libdbix-simple-perl
+    - libdbi-perl
+    - libnet-ip-perl
+    - libnet-dns-perl
 
 before_install:
     - sudo .test/tls-setup.sh
     - sudo apt-get install libextutils-makemaker-perl || echo "nope"
     - curl -L https://cpanmin.us | sudo perl - --sudo App::cpanminus
       # globally/system installed perl modules
-    - sudo cpanm --notest CGI RPC::XML Time::TAI64 CryptX Crypt::Mac::HMAC Crypt::KeyDerivation DBD::mysql Test::HTML::Lint Apache::DBI Shell LWP::UserAgent Test::Output Test::Pod MIME::Base32
-    - sudo cpanm --notest --force Net::DNS || sudo cpanm --notest --force Net::DNS@1.0.6 || echo "double darn"
-    - sudo cpanm --notest JSON SOAP::Lite XML::Parser Net::DNS Net::IP BIND::Conf_Parser DBIx::Simple DBI
+    - cpanm --notest CGI RPC::XML Time::TAI64 CryptX Crypt::Mac::HMAC Crypt::KeyDerivation DBD::mysql Test::HTML::Lint Apache::DBI Shell LWP::UserAgent Test::Output Test::Pod MIME::Base32
+    - cpanm --notest --force Net::DNS || sudo cpanm --notest --force Net::DNS@1.0.6 || echo "double darn"
+    - cpanm --notest JSON SOAP::Lite XML::Parser Net::DNS Net::IP BIND::Conf_Parser DBIx::Simple DBI
 
 install:
     - sudo cp .test/apache-nictool.conf /etc/apache2/sites-enabled/
