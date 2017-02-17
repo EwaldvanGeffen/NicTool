@@ -46,10 +46,13 @@ addons:
 
 before_install:
     - sudo .test/tls-setup.sh
-    # - sudo apt-get install libextutils-makemaker-perl || echo "nope"
-    # - curl -L https://cpanmin.us | sudo perl - --sudo App::cpanminus
-      # globally/system installed perl modules
-    - cpanm --notest CGI RPC::XML Time::TAI64 CryptX Crypt::Mac::HMAC Crypt::KeyDerivation DBD::mysql Test::HTML::Lint Apache::DBI Shell LWP::UserAgent Test::Output Test::Pod MIME::Base32
+
+      # globally/system installed perl modules, for Apache::mod_perl
+    - curl -L https://cpanmin.us | sudo perl - --sudo App::cpanminus
+    - sudo cpanm --notest CGI RPC::XML CryptX Crypt::Mac::HMAC Crypt::KeyDerivation DBD::mysql Apache::DBI Shell
+
+      # locally installed modules, for tests
+    - cpanm --notest CGI RPC::XML Time::TAI64 CryptX Crypt::Mac::HMAC Crypt::KeyDerivation DBD::mysql Test::HTML::Lint Shell LWP::UserAgent Test::Output Test::Pod MIME::Base32
     - cpanm --notest --force Net::DNS || sudo cpanm --notest --force Net::DNS@1.0.6 || echo "double darn"
     - cpanm --notest JSON SOAP::Lite XML::Parser Net::DNS Net::IP BIND::Conf_Parser DBIx::Simple DBI
 
