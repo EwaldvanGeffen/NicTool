@@ -34,7 +34,6 @@ addons:
     - liburi-perl
     - libmime-tools-perl
     - libmailtools-perl
-    - libdist-zilla-perl
     - libfile-sharedir-perl
     - libperl-prereqscanner-perl
     - libxml-libxml-perl
@@ -50,7 +49,6 @@ before_install:
     - sudo apt-get install libextutils-makemaker-perl || echo "nope"
     - curl -L https://cpanmin.us | sudo perl - --sudo App::cpanminus
       # globally/system installed perl modules
-    - sudo cpanm --notest Dist::Zilla Dist::Zilla::App Dist::Zilla::Plugin::Git::Check Dist::Zilla::Plugin::Git::Commit Dist::Zilla::Plugin::Git::Tag Dist::Zilla::Plugin::Test::Perl::Critic Dist::Zilla::Plugin::PodWeaver Moose::Meta::Role
     - sudo cpanm --notest CGI RPC::XML Time::TAI64 CryptX Crypt::Mac::HMAC Crypt::KeyDerivation DBD::mysql Test::HTML::Lint Apache::DBI Shell LWP::UserAgent Test::Output Test::Pod MIME::Base32
     - sudo cpanm --notest --force Net::DNS || sudo cpanm --notest --force Net::DNS@1.0.6 || echo "double darn"
 #   - sudo cpanm --notest JSON SOAP::Lite XML::Parser Net::DNS Net::IP BIND::Conf_Parser DBIx::Simple DBI
@@ -59,21 +57,14 @@ install:
     - sudo cp .test/apache-nictool.conf /etc/apache2/sites-enabled/
     - sudo service apache2 restart || sudo cat /var/log/apache2/error.log
     - sudo perl .test/create_tables.pl
-    - cd /home/travis/build/msimerson/NicTool/client
-    - sudo dzil authordeps --missing || echo "client authordeps"
-    - sudo dzil listdeps --missing || echo "dependencies"
-    - cd /home/travis/build/msimerson/NicTool/server
-    - sudo dzil authordeps --missing || echo "server authordeps"
-    - sudo dzil listdeps --missing || echo "dependencies"
 
 before_script:
 
 script:
-    - cd /home/travis/build/msimerson/NicTool/client
-    - sudo dzil test
-    - cd /home/travis/build/msimerson/NicTool/server
-    - sudo dzil test
-#   - dzil build
+    - cd /home/travis/build/msimerson/NicTool/client && perl Makefile.PL
+    - sudo make -C /home/travis/build/msimerson/NicTool/client test
+    - cd /home/travis/build/msimerson/NicTool/server && perl Makefile.PL
+    - sudo make -C /home/travis/build/msimerson/NicTool/server test
 
 after_success:
 after_failure:
