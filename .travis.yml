@@ -1,7 +1,7 @@
 language: perl
 perl:
-  - "5.22"
-  - "5.18"
+# - "5.22"
+# - "5.18"
   - "5.10"
 
 services:
@@ -46,8 +46,8 @@ addons:
 
 before_install:
     - sudo .test/tls-setup.sh
-    - sudo apt-get install libextutils-makemaker-perl || echo "nope"
-    - curl -L https://cpanmin.us | sudo perl - --sudo App::cpanminus
+    # - sudo apt-get install libextutils-makemaker-perl || echo "nope"
+    # - curl -L https://cpanmin.us | sudo perl - --sudo App::cpanminus
       # globally/system installed perl modules
     - cpanm --notest CGI RPC::XML Time::TAI64 CryptX Crypt::Mac::HMAC Crypt::KeyDerivation DBD::mysql Test::HTML::Lint Apache::DBI Shell LWP::UserAgent Test::Output Test::Pod MIME::Base32
     - cpanm --notest --force Net::DNS || sudo cpanm --notest --force Net::DNS@1.0.6 || echo "double darn"
@@ -56,15 +56,15 @@ before_install:
 install:
     - sudo cp .test/apache-nictool.conf /etc/apache2/sites-enabled/
     - sudo service apache2 restart || sudo cat /var/log/apache2/error.log
-    - sudo perl .test/create_tables.pl
+    - perl .test/create_tables.pl
 
 before_script:
 
 script:
     - cd /home/travis/build/msimerson/NicTool/client && perl Makefile.PL
-    - sudo make -C /home/travis/build/msimerson/NicTool/client test
+    - make -C /home/travis/build/msimerson/NicTool/client test
     - cd /home/travis/build/msimerson/NicTool/server && perl Makefile.PL
-    - sudo make -C /home/travis/build/msimerson/NicTool/server test
+    - make -C /home/travis/build/msimerson/NicTool/server test
 
 after_success:
 after_failure:
